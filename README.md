@@ -1,6 +1,7 @@
 # PCSWMM Results
 
-MAde by ChatGPT CODEX
+Made by ChatGPT CODEX
+
 A local browser app to extract selected node results from a SWMM/PCSWMM `.rpt` report and export an Excel-compatible CSV. Files are processed on your device; no upload, account, or PCSWMM installation is required to read an existing report.
 
 ## Run
