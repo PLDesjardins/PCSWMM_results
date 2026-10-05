@@ -7,8 +7,8 @@ html = folder / "PCSWMM-results.html"
 instructions = (
     "1. Extract this ZIP to a folder on your PC.\r\n"
     "2. Open PCSWMM-results.html with Chrome, Edge, or Firefox. Do not use a file preview.\r\n"
-    "3. Click Try a sample report to confirm the app runs (three rows should appear).\r\n"
-    "4. Choose your .rpt report and paste your node IDs, then click Extract results.\r\n"
+    "3. Click Try a sample batch to confirm the app runs (three rows with two report groups should appear).\r\n"
+    "4. Choose one or more .rpt reports and paste your node IDs, then click Extract results.\r\n"
     "5. Export CSV to save your table. Liter volumes are converted to m3.\r\n"
     "Your .rpt file stays on your PC.\r\n"
 )

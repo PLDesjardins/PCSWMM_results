@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseReport, selectNodes, toCsv } from '../parser.js';
+import { parseReport, selectNodes, toCsv, labelModels, selectBatch, batchToCsv } from '../parser.js';
 
 // Header and row layout follow EPA SWMM statsrpt.c writeNodeFlows.
 const fixture = (unit = 'CMS', volume = '10^6 ltr') => `
@@ -89,4 +89,52 @@ test('converts liter volumes exactly, with small values and scientific notation'
   const gallons = parseReport(fixture('CFS', '10^6 gal'));
   assert.equal(gallons.nodes.get('J1').totalInflow, '9.87');
   assert.equal(gallons.volumeUnit, '10^6 gal');
+});
+
+test('aligns batch results by node ID across reports with different orders, values and types', () => {
+  const models = labelModels([
+    { name: 'existing.rpt', report: parseReport(fixture()) },
+    { name: 'proposed.rpt', report: parseReport(fixture('CFS', '10^6 gal').replace('2.456', '8.901').replace('J1                   JUNCTION', 'J1                   STORAGE')) }
+  ]);
+  const rows = selectBatch(models, 'O1\nJ1\nO1\nunknown');
+  assert.deepEqual(rows.map(row => row.id), ['O1', 'J1', 'unknown']);
+  assert.equal(rows[1].models[0].peakFlow, '2.456');
+  assert.equal(rows[1].models[1].peakFlow, '8.901');
+  assert.equal(rows[1].models[0].type, 'JUNCTION');
+  assert.equal(rows[1].models[1].type, 'STORAGE');
+  assert.equal(rows[2].models[0].missing, true);
+  const csv = batchToCsv(rows, models);
+  assert.ok(csv.includes('existing.rpt — Peak flow (CMS)'));
+  assert.ok(csv.includes('proposed.rpt — Peak flow (CFS)'));
+  assert.ok(csv.includes('existing.rpt — Total inflow volume (m³)'));
+  assert.ok(csv.includes('proposed.rpt — Total inflow volume (10^6 gal)'));
+  assert.ok(csv.includes('"J1","JUNCTION","2.456","9870","0d 01:30","Found","STORAGE","8.901","9.87"'));
+});
+
+test('distinguishes unreadable reports from missing nodes and keeps every file in the CSV', () => {
+  const report = parseReport(fixture());
+  const second = parseReport(fixture().replace('J1                   JUNCTION', 'J2                   JUNCTION'));
+  const models = labelModels([
+    { name: 'good.rpt', report }, { name: 'bad.rpt', error: 'Unreadable summary' }, { name: 'other.rpt', report: second }
+  ]);
+  const rows = selectBatch(models, 'J1');
+  assert.equal(rows[0].models[0].totalInflow, '9870');
+  assert.equal(rows[0].models[1].error, true);
+  assert.equal(rows[0].models[2].missing, true);
+  const csv = batchToCsv(rows, models);
+  assert.ok(csv.includes('bad.rpt — Status'));
+  assert.ok(csv.includes('"Report error"'));
+  assert.ok(csv.includes('"Not found"'));
+  assert.ok(csv.includes('"","","","","Report error"'));
+});
+
+test('gives duplicate filenames unique labels and safely escapes filenames in CSV headers', () => {
+  const models = labelModels([
+    { name: 'same.rpt' }, { name: 'same.rpt' }, { name: 'same.rpt (2)' }, { name: '=model,"test".rpt' }
+  ]);
+  assert.equal(new Set(models.map(model => model.label)).size, 4);
+  assert.equal(models[1].label, 'same.rpt (2)');
+  const csv = batchToCsv(selectBatch(models, 'J1'), models);
+  assert.ok(csv.includes('"\'=model,""test"".rpt — Node type"'));
+  assert.deepEqual(selectBatch(models, ',;\n'), []);
 });

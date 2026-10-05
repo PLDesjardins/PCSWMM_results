@@ -64,16 +64,52 @@ export function selectNodes(report, input) {
   return ids.map(id => report.nodes.get(id) ?? { id, type: '', peakFlow: '', totalInflow: '', peakTime: '', missing: true });
 }
 
-export function toCsv(rows, report) {
+function csvRecords(records) {
   const escape = value => {
     let text = String(value);
     // Prevent spreadsheet formulas in user-controlled node IDs.
     if (/^[=+@-]/.test(text)) text = `'${text}`;
     return `"${text.replaceAll('"', '""')}"`;
   };
-  const records = [
+  return '\ufeff' + records.map(row => row.map(escape).join(',')).join('\r\n') + '\r\n';
+}
+
+export function toCsv(rows, report) {
+  return csvRecords([
     ['Node ID', 'Node type', `Peak flow (${report.flowUnit})`, `Total inflow volume (${report.volumeUnit})`, 'Time of peak (days hh:mm)', 'Status'],
     ...rows.map(row => [row.id, row.type, row.peakFlow, row.totalInflow, row.peakTime, row.missing ? 'Not found' : 'Found'])
-  ];
-  return '\ufeff' + records.map(row => row.map(escape).join(',')).join('\r\n') + '\r\n';
+  ]);
+}
+
+export function labelModels(models) {
+  const used = new Set();
+  return models.map(model => {
+    let label = model.name;
+    let suffix = 2;
+    while (used.has(label)) label = `${model.name} (${suffix++})`;
+    used.add(label);
+    return { ...model, label };
+  });
+}
+
+export function selectBatch(models, input) {
+  const ids = [...new Set(input.split(/[\n\r,;\t]+/).map(id => id.trim()).filter(Boolean))];
+  return ids.map(id => ({ id, models: models.map(model => {
+    if (!model.report) return { id, type: '', peakFlow: '', totalInflow: '', peakTime: '', error: true };
+    return model.report.nodes.get(id) ?? { id, type: '', peakFlow: '', totalInflow: '', peakTime: '', missing: true };
+  }) }));
+}
+
+export function batchToCsv(rows, models) {
+  const headers = ['Node ID'];
+  for (const model of models) {
+    const prefix = model.label ?? model.name;
+    headers.push(`${prefix} — Node type`, `${prefix} — Peak flow${model.report ? ` (${model.report.flowUnit})` : ''}`,
+      `${prefix} — Total inflow volume${model.report ? ` (${model.report.volumeUnit})` : ''}`,
+      `${prefix} — Time of peak (days hh:mm)`, `${prefix} — Status`);
+  }
+  return csvRecords([headers, ...rows.map(row => [row.id, ...row.models.flatMap(result => [
+    result.type, result.peakFlow, result.totalInflow, result.peakTime,
+    result.error ? 'Report error' : result.missing ? 'Not found' : 'Found'
+  ])])]);
 }
