@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PCSWMM Results · Node export</title>
+  <style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#203a37;background:#f6f7f3;font-synthesis:none;--green:#17685b;--muted:#76847e;--border:#e1e7e1}
+*{box-sizing:border-box}body{margin:0}.topbar{height:84px;padding:0 6%;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.brand{text-decoration:none;color:#203a37;display:flex;align-items:center;gap:9px;font-size:19px;font-weight:700;letter-spacing:-.5px}.brand-light{font-weight:400;color:#77857f}.brand-icon{display:grid;place-items:center;background:var(--green);color:white;width:34px;height:34px;border-radius:9px;font-size:30px;margin-right:5px}.privacy{font-size:12px;color:#65776f;display:flex;align-items:center;gap:8px}.dot{width:6px;height:6px;background:#46947a;border-radius:50%}main{max-width:1280px;margin:auto;padding:47px 44px 24px}.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:700;color:var(--green);margin:0 0 14px}h1{font-size:44px;letter-spacing:-1.7px;line-height:1.12;font-weight:600;margin:0 0 18px}h1 span{color:var(--green)}.intro>p:last-child{color:#718079;font-size:14px;line-height:1.8;margin-bottom:32px}.workspace{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;align-items:stretch}.panel{background:#fff;border:1px solid var(--border);border-radius:13px;box-shadow:0 4px 15px #183c2710}.inputs{padding:25px}.inputs section+section{border-top:1px solid var(--border);margin-top:23px;padding-top:24px}.section-title{display:flex;align-items:center;gap:10px;margin-bottom:17px}h2{font-size:16px;font-weight:600;margin:0}.step{font-size:10px;font-weight:700;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#edf4ef;color:var(--green)}.file-zone{border:1px dashed #b7cdc1;background:#f8fbf8;border-radius:8px;min-height:173px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;padding:16px;text-align:center;cursor:pointer}.file-zone:hover{background:#edf6ef}.file-zone:focus-within{outline:2px solid var(--green);outline-offset:3px}.file-zone strong{font-size:13px;max-width:100%;overflow-wrap:anywhere}.file-zone>span:not(.file-icon){font-size:11px;color:var(--muted)}.file-icon{font-size:26px;color:var(--green);line-height:1}.file-tag{border:1px solid var(--border);padding:4px 7px;border-radius:4px;margin-top:5px}.file-zone input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.hint{font-size:11px;line-height:1.6;color:var(--muted);margin:10px 0 0}.field-label{display:block;font-size:11px;font-weight:600;margin:0 0 8px}textarea{resize:vertical;width:100%;min-height:137px;border:1px solid #dce4de;border-radius:7px;background:#fdfefd;padding:12px;color:#29423b;font:12px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace}textarea::placeholder{color:#a3aea7}textarea:focus{outline:2px solid #3b8c73;outline-offset:1px}button{font:inherit;cursor:pointer;border:0;border-radius:6px;font-size:12px;font-weight:600;transition:background .15s}button:focus-visible,a:focus-visible{outline:2px solid #278773;outline-offset:3px}button:disabled{cursor:default;opacity:.45}.primary{width:100%;margin-top:18px;background:var(--green);color:white;display:flex;justify-content:space-between;padding:13px 16px}.primary:hover:enabled{background:#114e44}.text-button{display:block;margin:12px auto 0;background:none;color:#6b8176;font-size:11px;padding:5px}.text-button:hover{text-decoration:underline}.results{display:flex;flex-direction:column;overflow:hidden;min-height:580px}.results-header{padding:26px 27px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:10px}.results-header .eyebrow{font-size:9px;letter-spacing:1.4px;margin-bottom:8px;color:#8a978f}.results-header h2{font-size:20px;letter-spacing:-.5px}.export{background:#fff;border:1px solid #d5e1d9;color:var(--green);padding:10px 13px;white-space:nowrap}.export:hover:enabled{background:#eff6f1}.empty{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;flex:1;padding:55px 16px}.table-icon{font-size:40px;line-height:1;color:#5e8e77;width:76px;height:76px;display:grid;place-items:center;background:#f1f6f0;border-radius:18px}.empty h3{font-size:17px;font-weight:500;margin:22px 0 8px;letter-spacing:-.3px}.empty p{font-size:12px;line-height:1.8;color:#88958d;margin:0}.type-tags{display:flex;gap:8px;margin-top:23px;flex-wrap:wrap;justify-content:center}.type-tags span{font-size:10px;border:1px solid #e6ebe6;border-radius:20px;padding:5px 10px;color:#7f8e83}.result-note{display:flex;align-items:flex-start;gap:11px;background:#fafbf8;border-top:1px solid var(--border);padding:19px 26px;margin-top:auto}.result-note p{font-size:11px;line-height:1.7;color:#8a978e;margin:0}.result-note strong{color:#63776b;font-weight:600}.note-icon{font-family:serif;border:1px solid #8d9f91;border-radius:50%;height:14px;min-width:14px;font-size:10px;text-align:center;margin-top:3px;color:#819387}footer{display:flex;justify-content:space-between;font-size:10px;color:#96a197;margin-top:24px}.summary{display:flex;justify-content:space-between;gap:10px;padding:20px 26px;font-size:11px;color:#6f8377}.table-scroll{overflow:auto;padding:0 18px 24px}table{width:100%;border-collapse:collapse;text-align:left;font-size:12px;white-space:nowrap}th{font-size:10px;color:#718378;font-weight:600;background:#f3f7f2;padding:12px 10px}td{padding:15px 10px;border-bottom:1px solid #edf0eb;font-variant-numeric:tabular-nums}td:first-child{font-weight:600}td:nth-child(3),td:nth-child(4){text-align:right}th:nth-child(3),th:nth-child(4){text-align:right}.badge{font-size:9px;border-radius:4px;padding:4px 6px;background:#edf5ef;color:#4b7c61}.missing{color:#af7139}.missing .badge{background:#fff4e7;color:#af7139}#message{margin:17px 26px 0;padding:12px;border-radius:6px;background:#fff4e6;color:#8b572a;font-size:12px;line-height:1.6;overflow-wrap:anywhere}[hidden]{display:none!important}
+@media(min-width:1400px){main{padding-top:60px}}@media(max-width:900px){main{padding:35px 24px}.workspace{grid-template-columns:290px minmax(0,1fr);gap:16px}.inputs{padding:19px}.results-header{padding:23px 18px}.results-header h2{font-size:18px}.summary{flex-direction:column}}@media(max-width:680px){.topbar{height:70px;padding:0 20px}.brand{font-size:16px}.privacy{font-size:0}.privacy .dot{width:8px;height:8px}main{padding:28px 18px}h1{font-size:36px}.intro>p:last-child{font-size:13px}.workspace{grid-template-columns:1fr}.results{min-height:420px}footer{gap:12px;line-height:1.7;flex-wrap:wrap}.results-header{padding:22px}.result-note{padding:18px 22px}}
+
+</style>
+  
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./"><span class="brand-icon">≈</span> PCSWMM <span class="brand-light">Results</span></a><span class="privacy"><span class="dot"></span> Files stay on your device</span></header>
+  <main>
+    <div class="intro"><p class="eyebrow">REPORT TO TABLE</p><h1>Your node results,<br><span>ready to export.</span></h1><p>Extract peak flow and total inflow from a PCSWMM report.<br>Choose a file, add your nodes, and take your results with you.</p></div>
+    <div class="workspace">
+      <aside class="panel inputs">
+        <section><div class="section-title"><span class="step">01</span><h2>Choose your report</h2></div>
+          <label class="file-zone" for="report-file"><span class="file-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-7m-3 3 3-3 3 3"/></svg></span><strong id="file-label">Choose a .rpt file</strong><span>Browse files on your device</span><span class="file-tag">SWMM / PCSWMM report</span><input id="report-file" type="file" accept=".rpt,text/plain"></label>
+          <p id="file-info" class="hint">Your file is read locally in this browser.</p>
+        </section>
+        <section><div class="section-title"><span class="step">02</span><h2>Add your nodes</h2></div>
+          <label for="node-list" class="field-label">Node IDs</label><textarea id="node-list" placeholder="Junction-01&#10;Storage-02&#10;Outfall-03" spellcheck="false" rows="7"></textarea>
+          <p class="hint">One ID per line, or separate with commas, semicolons, or tabs. IDs are case-sensitive.</p>
+          <button id="extract" class="primary" aria-describedby="extract-help">Extract results <span aria-hidden="true">→</span></button>
+          <p id="extract-help" class="hint" role="status" aria-live="polite">Choose a report, then enter your node IDs.</p>
+          <button id="demo" class="text-button">Try a sample report</button>
+        </section>
+      </aside>
+      <section class="panel results" aria-labelledby="results-title">
+        <div class="results-header"><div><p class="eyebrow">YOUR SELECTED NODES</p><h2 id="results-title">Results table</h2></div><button id="export" class="export" disabled>↓ Export CSV</button></div>
+        <p id="startup-notice" class="hint" style="margin:17px 26px">Starting the app… If this message stays visible, download the HTML file and open it in Chrome, Edge, or Firefox. File previews may block the app from running.</p>
+        <noscript><p style="margin:17px 26px">JavaScript must be enabled to read your report and extract results.</p></noscript>
+        <div id="message" role="status" aria-live="polite" hidden></div>
+        <div id="empty" class="empty"><div class="table-icon" aria-hidden="true">▦</div><h3>A clearer view of your results</h3><p>Select a report and enter your node IDs.<br>Your results will appear here.</p><div class="type-tags"><span>Junctions</span><span>Storage nodes</span><span>Outfalls</span></div></div>
+        <div id="table-container" hidden><div class="summary"><span id="result-count"></span><span id="unit-info"></span></div><div class="table-scroll"><table><thead><tr><th>Node ID</th><th>Type</th><th id="peak-heading">Peak flow</th><th id="volume-heading">Total inflow</th><th>Peak time</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+        <div class="result-note"><span class="note-icon">i</span><p><strong>Know your numbers.</strong> Peak flow is Maximum Total Inflow, in the report’s flow units. Total inflow is cumulative Total Inflow Volume. Liter volumes are converted to m³: 1,000 liters = 1 m³, and 1 million liters = 1,000 m³. Results use the report’s printed precision.</p></div>
+      </section>
+    </div>
+    <footer><span>Built for your stormwater workflow.</span><span>Local processing · No uploads · CSV export</span></footer>
+  </main>
+<script>
+const number = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
+
+// Shift the decimal exactly so converting report values introduces no
+// floating-point rounding artifacts (including scientific notation).
+function shiftDecimal(value, places) {
+  const [, sign, whole, fraction = '', exponent = '0'] = value.match(/^([+-]?)(\d*)\.?([\d]*)(?:[eE]([+-]?\d+))?$/);
+  const digits = whole + fraction;
+  const point = whole.length + Number(exponent) + places;
+  let result = point <= 0 ? `0.${'0'.repeat(-point)}${digits}`
+    : point >= digits.length ? digits + '0'.repeat(point - digits.length)
+    : `${digits.slice(0, point)}.${digits.slice(point)}`;
+  result = result.replace(/^0+(?=\d)/, '').replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  return sign === '-' && /[1-9]/.test(result) ? `-${result}` : result;
+}
+
+/** Read the standard SWMM summary shared by junctions, storage and outfalls. */
+function parseReport(text) {
+  const lines = text.replace(/\r\n?/g, '\n').split('\n');
+  const start = lines.findIndex(line => /^\s*Node Inflow Summary\s*$/i.test(line));
+  if (start < 0) throw new Error('No Node Inflow Summary found. Choose a full SWMM/PCSWMM simulation report with summary results enabled.');
+  const section = [];
+  let rules = 0;
+  for (const line of lines.slice(start + 1)) {
+    if (/^\s*\*{3,}\s*$/.test(line)) {
+      if (rules >= 2) break;
+      continue;
+    }
+    if (/^\s*-{5,}\s*$/.test(line)) {
+      rules++;
+      if (rules > 2) break;
+      continue;
+    }
+    if (rules >= 2 && !line.trim()) break;
+    section.push(line);
+  }
+  const header = section.find(line => /^\s*Node\s+Type\s+/i.test(line));
+  if (!header) throw new Error('The Node Inflow Summary header is missing or unsupported.');
+  const flowUnit = header.match(/\b(CFS|GPM|MGD|CMS|LPS|MLD)\b/i)?.[1].toUpperCase();
+  const sourceVolumeUnit = header.match(/\b(?:10\^6\s*(?:gal|ltr)|ltr)\b/i)?.[0].replace(/\s+/g, ' ');
+  if (!flowUnit || !sourceVolumeUnit) throw new Error('Could not read flow and volume units from the summary header. No unit conversion was assumed.');
+  const liters = /ltr$/i.test(sourceVolumeUnit);
+  const volumeUnit = liters ? 'm³' : sourceVolumeUnit;
+  const volumeShift = /^10\^6/i.test(sourceVolumeUnit) ? 3 : -3;
+  const nodes = new Map();
+  for (const line of section) {
+    const match = line.match(/^\s*(.+?)\s+(JUNCTION|STORAGE|OUTFALL|DIVIDER)\s+(.+)$/i);
+    if (!match) continue;
+    const fields = match[3].trim().split(/\s+/);
+    // Lateral peak, total peak, day, hh:mm, lateral volume, total volume, balance.
+    if (fields.length < 7 || ![0, 1, 2, 4, 5, 6].every(i => number.test(fields[i])) || !/^\d{2}:\d{2}$/.test(fields[3])) {
+      throw new Error(`Cannot read results for node “${match[1]}”. The row is incomplete or uses an unsupported format.`);
+    }
+    const id = match[1].trim();
+    if (nodes.has(id)) throw new Error(`Duplicate node “${id}” in the summary. Please choose a single simulation report.`);
+    nodes.set(id, { id, type: match[2].toUpperCase(), peakFlow: fields[1], totalInflow: liters ? shiftDecimal(fields[5], volumeShift) : fields[5], peakTime: `${fields[2]}d ${fields[3]}` });
+  }
+  if (!nodes.size) throw new Error('The Node Inflow Summary contains no readable node results.');
+  const warnings = lines.filter(line => /^\s*ERROR\s+\d+/i.test(line)).map(line => line.trim());
+  return { nodes, flowUnit, volumeUnit, sourceVolumeUnit, warnings };
+}
+
+function selectNodes(report, input) {
+  const ids = [...new Set(input.split(/[\n\r,;\t]+/).map(id => id.trim()).filter(Boolean))];
+  return ids.map(id => report.nodes.get(id) ?? { id, type: '', peakFlow: '', totalInflow: '', peakTime: '', missing: true });
+}
+
+function toCsv(rows, report) {
+  const escape = value => {
+    let text = String(value);
+    // Prevent spreadsheet formulas in user-controlled node IDs.
+    if (/^[=+@-]/.test(text)) text = `'${text}`;
+    return `"${text.replaceAll('"', '""')}"`;
+  };
+  const records = [
+    ['Node ID', 'Node type', `Peak flow (${report.flowUnit})`, `Total inflow volume (${report.volumeUnit})`, 'Time of peak (days hh:mm)', 'Status'],
+    ...rows.map(row => [row.id, row.type, row.peakFlow, row.totalInflow, row.peakTime, row.missing ? 'Not found' : 'Found'])
+  ];
+  return '\ufeff' + records.map(row => row.map(escape).join(',')).join('\r\n') + '\r\n';
+}
+
+
+const $ = id => document.getElementById(id);
+let report = null;
+let results = [];
+let filename = '';
+let loadVersion = 0;
+let loadError = '';
+let reading = false;
+
+function message(text = '') {
+  $('message').textContent = text;
+  $('message').hidden = !text;
+}
+
+function clearResults() {
+  results = [];
+  $('rows').replaceChildren();
+  $('export').disabled = true;
+  $('table-container').hidden = true;
+  $('empty').hidden = false;
+  message();
+}
+
+function refreshButton() {
+  $('extract').disabled = reading;
+  $('extract-help').textContent = reading ? 'Reading your report…' : loadError || (!report ? 'Choose a report, then enter your node IDs.' : !$('node-list').value.trim() ? 'Report loaded. Enter at least one node ID.' : 'Ready to extract your selected nodes.');
+}
+
+function loadText(text, name) {
+  report = parseReport(text);
+  filename = name;
+  $('file-label').textContent = name;
+  $('file-info').textContent = `${report.nodes.size} nodes available · ${report.flowUnit} · ${report.volumeUnit}`;
+  refreshButton();
+  if (report.warnings.length) message(`This report contains simulation errors. Check the simulation before using these results: ${report.warnings.join(' ')}`);
+}
+
+$('report-file').addEventListener('change', async event => {
+  const version = ++loadVersion;
+  clearResults();
+  report = null;
+  loadError = '';
+  reading = false;
+  refreshButton();
+  const file = event.target.files[0];
+  if (!file) {
+    $('file-label').textContent = 'Choose a .rpt file';
+    $('file-info').textContent = 'Your file is read locally in this browser.';
+    return;
+  }
+  $('file-label').textContent = file.name;
+  $('file-info').textContent = 'Reading report…';
+  reading = true;
+  refreshButton();
+  try {
+    if (!/\.rpt$/i.test(file.name)) throw new Error('Please choose a .rpt report file.');
+    // Avoid freezing the browser on accidentally selected binary/huge files.
+    if (file.size > 100 * 1024 * 1024) throw new Error('This report exceeds the 100 MB limit. Use a report with summary results only.');
+    const bytes = await file.arrayBuffer();
+    if (version !== loadVersion) return;
+    let text;
+    try { text = new TextDecoder('utf-8', { fatal: true }).decode(bytes); }
+    catch { text = new TextDecoder('windows-1252').decode(bytes); }
+    loadText(text, file.name);
+  } catch (error) {
+    if (version !== loadVersion) return;
+    $('file-info').textContent = 'Report could not be read.';
+    loadError = error.message;
+    message(loadError);
+  } finally {
+    if (version === loadVersion) {
+      reading = false;
+      refreshButton();
+    }
+  }
+});
+
+$('node-list').addEventListener('input', () => {
+  clearResults();
+  if (loadError) message(loadError);
+  else if (report?.warnings.length) message(`Simulation errors reported: ${report.warnings.join(' ')}`);
+  refreshButton();
+});
+
+$('extract').addEventListener('click', () => {
+  if (!report) {
+    message(loadError || 'Choose a .rpt report file before extracting results.');
+    $('report-file').focus();
+    return;
+  }
+  results = selectNodes(report, $('node-list').value);
+  if (!results.length) { message('Enter at least one node ID.'); return; }
+  $('rows').replaceChildren();
+  for (const result of results) {
+    const row = document.createElement('tr');
+    if (result.missing) row.className = 'missing';
+    for (const [index, value] of [result.id, result.missing ? 'Not found' : result.type, result.peakFlow || '—', result.totalInflow || '—', result.peakTime || '—'].entries()) {
+      const cell = document.createElement('td');
+      if (index === 1) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = value;
+        cell.append(badge);
+      } else cell.textContent = value;
+      row.append(cell);
+    }
+    $('rows').append(row);
+  }
+  const missing = results.filter(row => row.missing);
+  const notices = [];
+  if (report.warnings.length) notices.push(`Simulation errors reported: ${report.warnings.join(' ')}`);
+  if (missing.length) notices.push(`${missing.length} node(s) not found: ${missing.map(row => row.id).join(', ')}. Check spelling and capitalization. Missing nodes will have blank values in the CSV.`);
+  message(notices.join(' '));
+  $('result-count').textContent = `${results.length - missing.length} of ${results.length} nodes found`;
+  $('unit-info').textContent = report.volumeUnit === 'm³' ? 'Volumes converted to m³' : 'Original report units';
+  $('peak-heading').textContent = `Peak flow (${report.flowUnit})`;
+  $('volume-heading').textContent = `Total inflow (${report.volumeUnit})`;
+  $('table-container').hidden = false;
+  $('empty').hidden = true;
+  $('export').disabled = results.length === missing.length;
+});
+
+$('export').addEventListener('click', () => {
+  if (!report || !results.some(row => !row.missing)) return;
+  const url = URL.createObjectURL(new Blob([toCsv(results, report)], { type: 'text/csv;charset=utf-8' }));
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `${filename.replace(/\.rpt$/i, '')}_node_results.csv`;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+$('demo').addEventListener('click', () => {
+  ++loadVersion;
+  reading = false;
+  loadError = '';
+  clearResults();
+  $('report-file').value = '';
+  $('node-list').value = 'Junction-01\nStorage-02\nOutfall-03';
+  loadText(`Synthetic demonstration report — not simulation results
+
+  *******************
+  Node Inflow Summary
+  *******************
+
+  -------------------------------------------------------------------------------------------------
+                                  Maximum  Maximum                  Lateral       Total        Flow
+                                  Lateral    Total  Time of Max      Inflow      Inflow     Balance
+                                   Inflow   Inflow   Occurrence      Volume      Volume       Error
+  Node                 Type           CMS      CMS  days hr:min    10^6 ltr    10^6 ltr     Percent
+  -------------------------------------------------------------------------------------------------
+  Junction-01          JUNCTION     0.120    1.840     0  01:35       0.420        12.6       0.012
+  Storage-02           STORAGE      0.000    2.310     0  01:50       0.000        18.4       0.020
+  Outfall-03           OUTFALL      0.000    3.760     0  02:10       0.000        29.1       0.001
+
+`, 'sample-demo.rpt');
+  $('extract').click();
+  message('Sample data for demonstration only. Choose your own .rpt file to extract simulation results.');
+});
+
+$('startup-notice').hidden = true;
+refreshButton();
+
+</script>
+</body>
+</html>

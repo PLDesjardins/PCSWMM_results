@@ -1,0 +1,3 @@
+dist/*
+!dist/PCSWMM-results.html
+!dist/PCSWMM-results.zip

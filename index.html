@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PCSWMM Results · Node export</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./"><span class="brand-icon">≈</span> PCSWMM <span class="brand-light">Results</span></a><span class="privacy"><span class="dot"></span> Files stay on your device</span></header>
+  <main>
+    <div class="intro"><p class="eyebrow">REPORT TO TABLE</p><h1>Your node results,<br><span>ready to export.</span></h1><p>Extract peak flow and total inflow from a PCSWMM report.<br>Choose a file, add your nodes, and take your results with you.</p></div>
+    <div class="workspace">
+      <aside class="panel inputs">
+        <section><div class="section-title"><span class="step">01</span><h2>Choose your report</h2></div>
+          <label class="file-zone" for="report-file"><span class="file-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-7m-3 3 3-3 3 3"/></svg></span><strong id="file-label">Choose a .rpt file</strong><span>Browse files on your device</span><span class="file-tag">SWMM / PCSWMM report</span><input id="report-file" type="file" accept=".rpt,text/plain"></label>
+          <p id="file-info" class="hint">Your file is read locally in this browser.</p>
+        </section>
+        <section><div class="section-title"><span class="step">02</span><h2>Add your nodes</h2></div>
+          <label for="node-list" class="field-label">Node IDs</label><textarea id="node-list" placeholder="Junction-01&#10;Storage-02&#10;Outfall-03" spellcheck="false" rows="7"></textarea>
+          <p class="hint">One ID per line, or separate with commas, semicolons, or tabs. IDs are case-sensitive.</p>
+          <button id="extract" class="primary" aria-describedby="extract-help">Extract results <span aria-hidden="true">→</span></button>
+          <p id="extract-help" class="hint" role="status" aria-live="polite">Choose a report, then enter your node IDs.</p>
+          <button id="demo" class="text-button">Try a sample report</button>
+        </section>
+      </aside>
+      <section class="panel results" aria-labelledby="results-title">
+        <div class="results-header"><div><p class="eyebrow">YOUR SELECTED NODES</p><h2 id="results-title">Results table</h2></div><button id="export" class="export" disabled>↓ Export CSV</button></div>
+        <p id="startup-notice" class="hint" style="margin:17px 26px">Starting the app… If this message stays visible, download the HTML file and open it in Chrome, Edge, or Firefox. File previews may block the app from running.</p>
+        <noscript><p style="margin:17px 26px">JavaScript must be enabled to read your report and extract results.</p></noscript>
+        <div id="message" role="status" aria-live="polite" hidden></div>
+        <div id="empty" class="empty"><div class="table-icon" aria-hidden="true">▦</div><h3>A clearer view of your results</h3><p>Select a report and enter your node IDs.<br>Your results will appear here.</p><div class="type-tags"><span>Junctions</span><span>Storage nodes</span><span>Outfalls</span></div></div>
+        <div id="table-container" hidden><div class="summary"><span id="result-count"></span><span id="unit-info"></span></div><div class="table-scroll"><table><thead><tr><th>Node ID</th><th>Type</th><th id="peak-heading">Peak flow</th><th id="volume-heading">Total inflow</th><th>Peak time</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+        <div class="result-note"><span class="note-icon">i</span><p><strong>Know your numbers.</strong> Peak flow is Maximum Total Inflow, in the report’s flow units. Total inflow is cumulative Total Inflow Volume. Liter volumes are converted to m³: 1,000 liters = 1 m³, and 1 million liters = 1,000 m³. Results use the report’s printed precision.</p></div>
+      </section>
+    </div>
+    <footer><span>Built for your stormwater workflow.</span><span>Local processing · No uploads · CSV export</span></footer>
+  </main>
+</body>
+</html>
